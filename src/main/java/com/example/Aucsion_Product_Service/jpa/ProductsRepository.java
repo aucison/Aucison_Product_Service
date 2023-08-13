@@ -1,4 +1,6 @@
 package com.example.Aucsion_Product_Service.jpa;
 
-public interface ProductsRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductsRepository extends JpaRepository<ProductsEntity, Long> {
 }
