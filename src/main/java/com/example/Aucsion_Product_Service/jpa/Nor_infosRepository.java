@@ -1,4 +1,6 @@
 package com.example.Aucsion_Product_Service.jpa;
 
-public interface Nor_infosRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface Nor_infosRepository extends JpaRepository<Nor_infosEntity, Long> {
 }
