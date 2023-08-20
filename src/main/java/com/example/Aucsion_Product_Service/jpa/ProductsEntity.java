@@ -37,4 +37,5 @@ public class ProductsEntity {
     @Column(name = "products_code", nullable = false)
     //@GeneratedValue(strategy = GenerationType.IDENTITY) -> 기본키 전용으로 이렇게 하지 말라고 함 -> 데이터베이스 트리거 방식 권장
     private Long products_code;     //상품 고유 식별 코드
+
 }
