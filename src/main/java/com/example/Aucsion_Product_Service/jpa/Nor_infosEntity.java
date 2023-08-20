@@ -19,4 +19,8 @@ public class Nor_infosEntity {
 
     @Column(name = "price", nullable = false)
     private float price;     //등록 가격
+
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "nor_infosEntity")
+    private ProductsEntity productsEntity;
 }

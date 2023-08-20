@@ -38,4 +38,14 @@ public class ProductsEntity {
     //@GeneratedValue(strategy = GenerationType.IDENTITY) -> 기본키 전용으로 이렇게 하지 말라고 함 -> 데이터베이스 트리거 방식 권장
     private Long products_code;     //상품 고유 식별 코드
 
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auc_infos_id")
+    private Auc_infosEntity auc_infosEntity;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nor_infos_id")
+    private Nor_infosEntity nor_infosEntity;
+
 }
