@@ -1,5 +1,6 @@
 package com.example.Aucsion_Product_Service.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@Builder
 public class ProductRegisterRequestDto {
 
     //상품 등록시 사용하는 Dto
