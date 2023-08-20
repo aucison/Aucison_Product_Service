@@ -2,6 +2,7 @@ package com.example.Aucsion_Product_Service.jpa;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -47,5 +48,20 @@ public class ProductsEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nor_infos_id")
     private Nor_infosEntity nor_infosEntity;
+
+
+    @Builder
+    public ProductsEntity(String name, String category, Date created_at,
+                          String information, String summary, Long products_code
+                          /*Auc_infosEntity auc_infosEntity, Nor_infosEntity nor_infosEntity*/) {
+        this.name = name;
+        this.category = category;
+        this.created_at = created_at;
+        this.information = information;
+        this.summary = summary;
+        this.products_code = products_code;
+        //this.auc_infosEntity = auc_infosEntity;
+        //this.nor_infosEntity = nor_infosEntity;
+    }
 
 }

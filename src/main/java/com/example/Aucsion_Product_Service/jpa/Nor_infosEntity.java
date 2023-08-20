@@ -2,6 +2,7 @@ package com.example.Aucsion_Product_Service.jpa;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,10 @@ public class Nor_infosEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "nor_infosEntity")
     private ProductsEntity productsEntity;
+
+    @Builder
+    public Nor_infosEntity(float price, ProductsEntity productsEntity) {
+        this.price = price;
+        this.productsEntity=productsEntity;
+    }
 }
