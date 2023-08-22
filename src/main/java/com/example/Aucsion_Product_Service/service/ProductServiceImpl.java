@@ -1,10 +1,7 @@
 package com.example.Aucsion_Product_Service.service;
 
 
-import com.example.Aucsion_Product_Service.dto.AucProductResponseDto;
-import com.example.Aucsion_Product_Service.dto.NorProductResponseDto;
-import com.example.Aucsion_Product_Service.dto.ProductRegisterRequestDto;
-import com.example.Aucsion_Product_Service.dto.ProductSearchResponseDto;
+import com.example.Aucsion_Product_Service.dto.*;
 import com.example.Aucsion_Product_Service.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -133,6 +130,39 @@ public class ProductServiceImpl implements ProductService{
         } else {
             return null;  // 없을 경우 로직 생각
         }
+
+    }
+
+    @Override
+    public ProductDetailResponseDto getProductDetail(String product_code) {
+
+        //단일 상품에 대한 상품의 상세 정보를 제공
+
+        //추후 posts, comments도 여기서 제공하게 할 수도 있음
+
+        ProductsEntity product = productsRepository.findByProductsCode(product_code);
+
+        ProductDetailResponseDto.ProductDetailResponseDtoBuilder builder = ProductDetailResponseDto.builder()
+                .name(product.getName())
+                .category(product.getCategory())
+                .created_at(product.getCreated_at())
+                .information(product.getInformation())
+                .summary(product.getSummary())
+                .producst_code(String.valueOf(product.getProducts_code()));
+
+        // 경매 상품 추가정보
+        if ("auc".equals(product.getCategory()) && product.getAuc_infosEntity() != null) {
+            builder.start_price(product.getAuc_infosEntity().getStart_price())
+                    .end(product.getAuc_infosEntity().getEnd())
+                    .bids_code(product.getAuc_infosEntity().getBids_code());
+        }
+
+        // 비경매 상품 추가정보
+        if ("nor".equals(product.getCategory()) && product.getNor_infosEntity() != null) {
+            builder.price(product.getNor_infosEntity().getPrice());
+        }
+
+        return builder.build();
 
     }
 }
