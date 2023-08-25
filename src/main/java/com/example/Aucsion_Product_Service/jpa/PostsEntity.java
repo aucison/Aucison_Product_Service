@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,4 +31,13 @@ public class PostsEntity {
 
     @Column(name = "title", nullable = false)
     private String members_code;        //질문 작성자 식별 코드
+
+    @OneToMany(mappedBy = "postsEntity")
+    List<CommentsEntity> commentsEntities = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name="products_id")
+    private ProductsEntity productsEntity;
+
+
 }

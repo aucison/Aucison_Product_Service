@@ -26,5 +26,16 @@ public class CommentsEntity {
 
     @Column(name = "title", nullable = false)
     private String members_code;        //답변 작성자 식별 코드
+
+
+
+    //생각해 보니 코멘트를 여러개 달 수도 있다고 생각됨 -> 1대 1(or zero 에서) 말고 1대 다(or zero or 1)
+    @ManyToOne
+    @JoinColumn(name = "posts_id")
+    private PostsEntity postsEntity;
+
+
+
+
 }
 

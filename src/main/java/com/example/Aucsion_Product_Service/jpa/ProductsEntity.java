@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -49,6 +51,8 @@ public class ProductsEntity {
     @JoinColumn(name = "nor_infos_id")
     private Nor_infosEntity nor_infosEntity;
 
+    @OneToMany(mappedBy = "productsEntity")
+    List<PostsEntity> postsEntities = new ArrayList<>();
 
     @Builder
     public ProductsEntity(String name, String category, Date created_at,
