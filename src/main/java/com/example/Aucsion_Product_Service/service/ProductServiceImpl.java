@@ -76,7 +76,6 @@ public class ProductServiceImpl implements ProductService{
     public void registerProduct(ProductRegisterRequestDto dto) {
         //상품 등록
 
-
         //ProductsEntity를 먼저 저장을 한다.
         ProductsEntity product = ProductsEntity.builder()
                 .name(dto.getName())
@@ -164,5 +163,9 @@ public class ProductServiceImpl implements ProductService{
 
         return builder.build();
 
+
+        //게시판 정보들은 따로 보내준다
+
     }
+
 }

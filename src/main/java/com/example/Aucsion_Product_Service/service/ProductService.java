@@ -15,4 +15,7 @@ public interface ProductService {
 
     //상품 상세 정보 조회하기
     ProductDetailResponseDto getProductDetail(String product_code);
+
+
+
 }
