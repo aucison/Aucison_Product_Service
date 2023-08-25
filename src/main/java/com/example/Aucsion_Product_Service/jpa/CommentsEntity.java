@@ -27,3 +27,4 @@ public class CommentsEntity {
     @Column(name = "title", nullable = false)
     private String members_code;        //답변 작성자 식별 코드
 }
+
