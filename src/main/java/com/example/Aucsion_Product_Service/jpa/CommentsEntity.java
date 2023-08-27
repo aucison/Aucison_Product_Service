@@ -22,7 +22,7 @@ public class CommentsEntity {
     private String content;             //답변
 
     @Column(name = "title", nullable = false)
-    private Date created_at;            //등록시간
+    private Date c_created_at;            //댓글 등록시간
 
     @Column(name = "title", nullable = false)
     private String members_code;        //답변 작성자 식별 코드
@@ -33,8 +33,6 @@ public class CommentsEntity {
     @ManyToOne
     @JoinColumn(name = "posts_id")
     private PostsEntity postsEntity;
-
-
 
 
 }
