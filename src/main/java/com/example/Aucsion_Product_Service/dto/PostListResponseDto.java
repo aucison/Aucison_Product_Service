@@ -11,11 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class PostListReponsetDto {
-
-
-
-
+public class PostListResponseDto {
 
     private Long posts_id;
     private String title;
