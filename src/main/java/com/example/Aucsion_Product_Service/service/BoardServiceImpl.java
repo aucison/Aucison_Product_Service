@@ -64,22 +64,32 @@ public class BoardServiceImpl implements  BoardService{
 
     @Override
     public void updatePost(Long postId, PostRequestDto postRequestDto) {
-
+        PostsEntity post = postsRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+        post.update(postRequestDto.getTitle(), postRequestDto.getContent());
+        postsRepository.save(post);
     }
 
     @Override
     public void deletePost(Long postId) {
-
+        PostsEntity post = postsRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+        postsRepository.delete(post);
     }
 
     @Override
     public void updateComment(Long commentId, CommentRequestDto commentRequestDto) {
-
+        CommentsEntity comment = commentsRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
+        comment.update(commentRequestDto.getContent());
+        commentsRepository.save(comment);
     }
 
     @Override
     public void deleteComment(Long commentId) {
-
+        CommentsEntity comment = commentsRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
+        commentsRepository.delete(comment);
     }
 
 

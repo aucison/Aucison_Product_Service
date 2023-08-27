@@ -34,6 +34,11 @@ public class CommentsEntity {
     @JoinColumn(name = "posts_id")
     private PostsEntity postsEntity;
 
+    public void update(String content) {
+        this.content = content;
+    }
+
+
 
 }
 

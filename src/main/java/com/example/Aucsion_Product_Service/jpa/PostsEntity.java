@@ -40,4 +40,10 @@ public class PostsEntity {
     private ProductsEntity productsEntity;
 
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+
 }
