@@ -17,11 +17,12 @@ public class ProductDetailResponseDto {
 
 
     private String name;
+    private String kind;
     private String category;
     private Date created_at;
     private String information;
     private String summary;
-    private String producst_code;
+
 
 
     // 경매상품 정보

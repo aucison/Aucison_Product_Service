@@ -25,8 +25,11 @@ public class ProductsEntity {
     @Column(name = "name", nullable = false)
     private String name;            //상품명
 
+    @Column(name = "kind", nullable = false)
+    private String kind;            // 상품분류(일반(hand) / 핸드메이드(nonhand)
+
     @Column(name = "category", nullable = false)
-    private String category;        //상품 분류
+    private String category;        // 경매여부(경매(auc) / 비경매(nor))
 
     @Column(name = "created_at", nullable = false)
     private Date created_at;        //등록 시간
@@ -36,10 +39,6 @@ public class ProductsEntity {
 
     @Column(name = "summary", nullable = true)
     private String summary;         //상품 한줄 설명
-
-    @Column(name = "products_code", nullable = false)
-    //@GeneratedValue(strategy = GenerationType.IDENTITY) -> 기본키 전용으로 이렇게 하지 말라고 함 -> 데이터베이스 트리거 방식 권장
-    private Long products_code;     //상품 고유 식별 코드
 
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -55,15 +54,15 @@ public class ProductsEntity {
     List<PostsEntity> postsEntities = new ArrayList<>();
 
     @Builder
-    public ProductsEntity(String name, String category, Date created_at,
+    public ProductsEntity(String name, String kind, String category, Date created_at,
                           String information, String summary, Long products_code
                           /*Auc_infosEntity auc_infosEntity, Nor_infosEntity nor_infosEntity*/) {
         this.name = name;
+        this.kind = kind;
         this.category = category;
         this.created_at = created_at;
         this.information = information;
         this.summary = summary;
-        this.products_code = products_code;
         //this.auc_infosEntity = auc_infosEntity;
         //this.nor_infosEntity = nor_infosEntity;
     }

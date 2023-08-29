@@ -16,7 +16,6 @@ public class ProductSearchResponseDto {
 
 
     private String name;
-    private String category;
     private Date created_at;
     private String summary;
 
