@@ -1,9 +1,9 @@
 package com.example.Aucsion_Product_Service.service;
 
-import com.example.Aucsion_Product_Service.dto.CommentListResponseDto;
-import com.example.Aucsion_Product_Service.dto.CommentRequestDto;
-import com.example.Aucsion_Product_Service.dto.PostListResponseDto;
-import com.example.Aucsion_Product_Service.dto.PostRequestDto;
+import com.example.Aucsion_Product_Service.dto.board.CommentListResponseDto;
+import com.example.Aucsion_Product_Service.dto.board.CommentRequestDto;
+import com.example.Aucsion_Product_Service.dto.board.PostListResponseDto;
+import com.example.Aucsion_Product_Service.dto.board.PostRequestDto;
 import com.example.Aucsion_Product_Service.jpa.CommentsEntity;
 import com.example.Aucsion_Product_Service.jpa.CommentsRepository;
 import com.example.Aucsion_Product_Service.jpa.PostsEntity;

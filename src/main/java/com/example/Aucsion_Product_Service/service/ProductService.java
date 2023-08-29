@@ -1,6 +1,8 @@
 package com.example.Aucsion_Product_Service.service;
 
 import com.example.Aucsion_Product_Service.dto.*;
+import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
+import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.Aucsion_Product_Service.dto;
+package com.example.Aucsion_Product_Service.dto.auc_nor;
 
 
 import lombok.Builder;
@@ -14,11 +14,10 @@ public class AucProductResponseDto {
     //경매상품들 검색 결과 반환시 사용하는 Dto
 
     private String name;
-    private String category;
     private Date created_at;
     private String information;
     private String summary;
-    private Long products_code;
+    private boolean is_wish;
 
 
     private float start_price;
