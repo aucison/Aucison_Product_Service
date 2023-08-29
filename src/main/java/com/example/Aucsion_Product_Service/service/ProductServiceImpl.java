@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService{
         List<ProductsEntity> products = productsRepository.findByCategoryAndKind("AUC", "HAND");
         return products.stream().map(product ->
                 AucProductResponseDto.builder()
-                        .name(product.getName())        //member-service에서 닉네임 가져오는 걸로 변경 예정
+                        .name(product.getName())
                         .created_at(product.getCreated_at())
                         .information(product.getInformation())
                         .summary(product.getSummary())
