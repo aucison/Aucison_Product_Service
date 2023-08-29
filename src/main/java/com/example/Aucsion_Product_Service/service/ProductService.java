@@ -7,9 +7,15 @@ import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
 import java.util.List;
 
 public interface ProductService {
-    List<AucProductResponseDto> getAllAucProducts();
+//    List<AucProductResponseDto> getAllAucProducts();
+//
+//    List<NorProductResponseDto> getAllNorProducts();
 
-    List<NorProductResponseDto> getAllNorProducts();
+
+    List<AucProductResponseDto> getAllAucHandProducts();
+    List<AucProductResponseDto> getAllAucNothandProducts();
+    List<NorProductResponseDto> getAllNorHandProducts();
+    List<NorProductResponseDto> getAllNorNothandProducts();
 
     void registerProduct(ProductRegisterRequestDto dto);
 

@@ -14,11 +14,6 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    //분류별 상품 전체를 가져오기 -> getProductBy
-
-    //상품 등록하기 -> createProduct
-
-    //상품 검색 -> searchProduct
 
     ProductsRepository productsRepository;
     Nor_infosRepository nor_infosRepository;
@@ -32,47 +27,114 @@ public class ProductServiceImpl implements ProductService{
     }
 
 
-    @Override
-    public List<AucProductResponseDto> getAllAucProducts() {
-        //모든 경매상품들 반환
-        List<ProductsEntity> products = productsRepository.findByCategory("AUC");
+    //해당 코드에 조건 추가 및 리펙토링이 필요하여 주석처리
 
-        //가져온 리스트 [products]를 스트림형으로 변환 후 각각의 상품 정보를 AucProductResponseDto로 맵핑 -> 이를 반환
+//    @Override
+//    public List<AucProductResponseDto> getAllAucProducts() {
+//        //모든 경매상품들 반환
+//        List<ProductsEntity> products = productsRepository.findByCategory("AUC");
+//
+//        //가져온 리스트 [products]를 스트림형으로 변환 후 각각의 상품 정보를 AucProductResponseDto로 맵핑 -> 이를 반환
+//        return products.stream().map(product ->
+//                AucProductResponseDto.builder()
+//                        .name(product.getName())
+//                        .created_at(product.getCreated_at())
+//                        .information(product.getInformation())
+//                        .summary(product.getSummary())
+//                        .start_price(product.getAuc_infosEntity().getStart_price())
+//                        .end(product.getAuc_infosEntity().getEnd())
+//                        .bids_code(product.getAuc_infosEntity().getBids_code())
+//                        .build()
+//        ).collect(Collectors.toList());
+//
+//    }
+//
+//    @Override
+//    public List<NorProductResponseDto> getAllNorProducts() {
+//        //모든 비경매상품(일반)들 반환
+//
+//        List<ProductsEntity> products = productsRepository.findByCategory("NOR");
+//
+//        return products.stream().map(product ->
+//                NorProductResponseDto.builder()
+//                        .name(product.getName())
+//                        .created_at(product.getCreated_at())
+//                        .information(product.getInformation())
+//                        .summary(product.getSummary())
+//                        .price(product.getNor_infosEntity().getPrice())
+//                        .build()
+//        ).collect(Collectors.toList());
+//
+//    }
+
+    //공부용 주석
+    // 레포지토리의 메소드를 호출하여 조건에 맞는 product들을 list(products)에 저장
+    // -> stream api를 이용하여 리스트를 스트림형으로 변환하고 각 상품에 대해 map연산 진행
+    // -> AucProductResponseDto의 빌더패턴을 사용하여 새로운 AucProductResponseDto객체를 만듬
+    // -> 상품의 이름을 AucProductResponseDto의 namme 필드에 설정
+    // -> ...
+    // -> 상품의 시작가격을 AucProductResponseDto의 start_price필드에 설정하는데 이는 Auc_infosEntity와 연관있음
+    // -> ...
+    // -> AucProductResponseDto객체를 빌드화함
+    // -> 최종적으로 변환된 AucProductResponseDto객체들을 리스트로 모아 반환
+
+    //위 4개의 서비스에서 iswish를 가져와야하는데 아직 로직을 고민중...
+    public List<AucProductResponseDto> getAllAucHandProducts() {
+        List<ProductsEntity> products = productsRepository.findByCategoryAndKind("AUC", "HAND");
         return products.stream().map(product ->
                 AucProductResponseDto.builder()
-                        .name(product.getName())
-                        .category(product.getCategory())
+                        .name(product.getName())        //member-service에서 닉네임 가져오는 걸로 변경 예정
                         .created_at(product.getCreated_at())
                         .information(product.getInformation())
                         .summary(product.getSummary())
-                        .products_code(product.getProducts_code())
                         .start_price(product.getAuc_infosEntity().getStart_price())
                         .end(product.getAuc_infosEntity().getEnd())
                         .bids_code(product.getAuc_infosEntity().getBids_code())
                         .build()
         ).collect(Collectors.toList());
-
     }
 
-    @Override
-    public List<NorProductResponseDto> getAllNorProducts() {
-        //모든 비경매상품(일반)들 반환
-
-        List<ProductsEntity> products = productsRepository.findByCategory("NOR");
-
+    public List<AucProductResponseDto> getAllAucNothandProducts() {
+        List<ProductsEntity> products = productsRepository.findByCategoryAndKind("AUC", "NOTHAND");
         return products.stream().map(product ->
-                NorProductResponseDto.builder()
+                AucProductResponseDto.builder()
                         .name(product.getName())
-                        .category(product.getCategory())
                         .created_at(product.getCreated_at())
                         .information(product.getInformation())
                         .summary(product.getSummary())
-                        .products_code(product.getProducts_code())
+                        .start_price(product.getAuc_infosEntity().getStart_price())
+                        .end(product.getAuc_infosEntity().getEnd())
+                        .bids_code(product.getAuc_infosEntity().getBids_code())
+                        .build()
+        ).collect(Collectors.toList());
+    }
+
+    public List<NorProductResponseDto> getAllNorHandProducts() {
+        List<ProductsEntity> products = productsRepository.findByCategoryAndKind("NOR", "HAND");
+        return products.stream().map(product ->
+                NorProductResponseDto.builder()
+                        .name(product.getName())
+                        .created_at(product.getCreated_at())
+                        .information(product.getInformation())
+                        .summary(product.getSummary())
                         .price(product.getNor_infosEntity().getPrice())
                         .build()
         ).collect(Collectors.toList());
-
     }
+
+    public List<NorProductResponseDto> getAllNorNothandProducts() {
+        List<ProductsEntity> products = productsRepository.findByCategoryAndKind("NOR", "NOTHAND");
+        return products.stream().map(product ->
+                NorProductResponseDto.builder()
+                        .name(product.getName())
+                        .created_at(product.getCreated_at())
+                        .information(product.getInformation())
+                        .summary(product.getSummary())
+                        .price(product.getNor_infosEntity().getPrice())
+                        .build()
+        ).collect(Collectors.toList());
+    }
+
 
     @Override
     public void registerProduct(ProductRegisterRequestDto dto) {
@@ -85,7 +147,6 @@ public class ProductServiceImpl implements ProductService{
                 .created_at(dto.getCreated_at())
                 .information(dto.getInformation())
                 .summary(dto.getSummary())
-                .products_code(dto.getProducts_code())
                 .build();
 
         productsRepository.save(product);
@@ -124,7 +185,6 @@ public class ProductServiceImpl implements ProductService{
         if (product != null) {
             return ProductSearchResponseDto.builder()
                     .name(product.getName())
-                    .category(product.getCategory())
                     .created_at(product.getCreated_at())
                     .summary(product.getSummary())
                     .build();
@@ -148,8 +208,7 @@ public class ProductServiceImpl implements ProductService{
                 .category(product.getCategory())
                 .created_at(product.getCreated_at())
                 .information(product.getInformation())
-                .summary(product.getSummary())
-                .producst_code(String.valueOf(product.getProducts_code()));
+                .summary(product.getSummary());
 
         // 경매 상품 추가정보
         if ("auc".equals(product.getCategory()) && product.getAuc_infosEntity() != null) {
