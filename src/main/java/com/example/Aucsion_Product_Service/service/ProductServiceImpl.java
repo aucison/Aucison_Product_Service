@@ -4,6 +4,7 @@ package com.example.Aucsion_Product_Service.service;
 import com.example.Aucsion_Product_Service.dto.*;
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
+import com.example.Aucsion_Product_Service.dto.search.ProductSearchResponseDto;
 import com.example.Aucsion_Product_Service.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,7 +85,7 @@ public class ProductServiceImpl implements ProductService{
         return products.stream().map(product ->
                 AucProductResponseDto.builder()
                         .name(product.getName())
-                        .created_at(product.getCreated_at())
+                        .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .start_price(product.getAuc_infosEntity().getStart_price())
@@ -99,7 +100,7 @@ public class ProductServiceImpl implements ProductService{
         return products.stream().map(product ->
                 AucProductResponseDto.builder()
                         .name(product.getName())
-                        .created_at(product.getCreated_at())
+                        .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .start_price(product.getAuc_infosEntity().getStart_price())
@@ -114,7 +115,7 @@ public class ProductServiceImpl implements ProductService{
         return products.stream().map(product ->
                 NorProductResponseDto.builder()
                         .name(product.getName())
-                        .created_at(product.getCreated_at())
+                        .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .price(product.getNor_infosEntity().getPrice())
@@ -127,7 +128,7 @@ public class ProductServiceImpl implements ProductService{
         return products.stream().map(product ->
                 NorProductResponseDto.builder()
                         .name(product.getName())
-                        .created_at(product.getCreated_at())
+                        .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .price(product.getNor_infosEntity().getPrice())
@@ -144,10 +145,10 @@ public class ProductServiceImpl implements ProductService{
         ProductsEntity product = ProductsEntity.builder()
                 .name(dto.getName())
                 .category(dto.getCategory())
-                .created_at(dto.getCreated_at())
                 .information(dto.getInformation())
                 .summary(dto.getSummary())
                 .build();
+        // 'createdTime'이 자동으로 설정될 것이므로 필요 x
 
         productsRepository.save(product);
 
@@ -185,7 +186,7 @@ public class ProductServiceImpl implements ProductService{
         if (product != null) {
             return ProductSearchResponseDto.builder()
                     .name(product.getName())
-                    .created_at(product.getCreated_at())
+                    .createdTime(product.getCreatedTime())
                     .summary(product.getSummary())
                     .build();
         } else {
@@ -206,7 +207,7 @@ public class ProductServiceImpl implements ProductService{
         ProductDetailResponseDto.ProductDetailResponseDtoBuilder builder = ProductDetailResponseDto.builder()
                 .name(product.getName())
                 .category(product.getCategory())
-                .created_at(product.getCreated_at())
+                .createdTime(product.getCreatedTime())
                 .information(product.getInformation())
                 .summary(product.getSummary());
 

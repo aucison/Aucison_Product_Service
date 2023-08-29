@@ -1,11 +1,13 @@
 package com.example.Aucsion_Product_Service.jpa;
 
 
+import com.example.Aucsion_Product_Service.time.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "products")
-public class ProductsEntity {
+public class ProductsEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +33,8 @@ public class ProductsEntity {
     @Column(name = "category", nullable = false)
     private String category;        // 경매여부(경매(auc) / 비경매(nor))
 
-    @Column(name = "created_at", nullable = false)
-    private Date created_at;        //등록 시간
+    @Column(name = "createdTime", nullable = false)
+    private LocalDateTime createdTime;        //등록 시간
 
     @Column(name = "information", nullable = true)
     private String information;     //상품 정보
@@ -54,13 +56,13 @@ public class ProductsEntity {
     List<PostsEntity> postsEntities = new ArrayList<>();
 
     @Builder
-    public ProductsEntity(String name, String kind, String category, Date created_at,
+    public ProductsEntity(String name, String kind, String category,LocalDateTime createdTime,
                           String information, String summary, Long products_code
                           /*Auc_infosEntity auc_infosEntity, Nor_infosEntity nor_infosEntity*/) {
         this.name = name;
         this.kind = kind;
         this.category = category;
-        this.created_at = created_at;
+        this.createdTime = createdTime;
         this.information = information;
         this.summary = summary;
         //this.auc_infosEntity = auc_infosEntity;

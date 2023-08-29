@@ -3,6 +3,7 @@ package com.example.Aucsion_Product_Service.service;
 import com.example.Aucsion_Product_Service.dto.*;
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
+import com.example.Aucsion_Product_Service.dto.search.ProductSearchResponseDto;
 
 import java.util.List;
 

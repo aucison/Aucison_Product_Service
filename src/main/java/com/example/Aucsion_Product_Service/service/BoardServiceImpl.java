@@ -39,7 +39,7 @@ public class BoardServiceImpl implements  BoardService{
                             .posts_id(postEntity.getPosts_id())
                             .title(postEntity.getTitle())
                             .content(postEntity.getContent())
-                            .created_at(postEntity.getCreated_at())
+                            .createdTime(postEntity.getCreatedTime())
                             .members_code(postEntity.getMembers_code())
                             .build();
 
@@ -50,7 +50,7 @@ public class BoardServiceImpl implements  BoardService{
                             .map(commentEntity -> CommentListResponseDto.builder()
                                     .comments_id(commentEntity.getComments_id())
                                     .content(commentEntity.getContent())
-                                    .c_created_at(commentEntity.getC_created_at())
+                                    .createdTime(commentEntity.getCreatedTime())
                                     .members_code(commentEntity.getMembers_code())
                                     .build())
                             .collect(Collectors.toList());

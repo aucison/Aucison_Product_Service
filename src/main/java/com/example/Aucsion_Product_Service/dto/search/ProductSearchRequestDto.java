@@ -1,4 +1,4 @@
-package com.example.Aucsion_Product_Service.dto;
+package com.example.Aucsion_Product_Service.dto.search;
 
 
 import lombok.Builder;

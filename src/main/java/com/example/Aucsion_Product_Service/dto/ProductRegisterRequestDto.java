@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -19,7 +20,7 @@ public class ProductRegisterRequestDto {
     private String name;
     private String kind;
     private String category;
-    private Date created_at;
+    private LocalDateTime createdTime;
     private String information;
     private String summary;
 

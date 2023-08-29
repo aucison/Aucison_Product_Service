@@ -1,6 +1,7 @@
 package com.example.Aucsion_Product_Service.jpa;
 
 
+import com.example.Aucsion_Product_Service.time.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "nor_infos")
-public class Nor_infosEntity {
+public class Nor_infosEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

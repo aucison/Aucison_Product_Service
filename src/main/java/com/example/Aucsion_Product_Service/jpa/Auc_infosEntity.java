@@ -1,18 +1,20 @@
 package com.example.Aucsion_Product_Service.jpa;
 
 
+import com.example.Aucsion_Product_Service.time.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "auc_infos")
-public class Auc_infosEntity {
+public class Auc_infosEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
