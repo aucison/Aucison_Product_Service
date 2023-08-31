@@ -3,12 +3,14 @@ package com.example.Aucsion_Product_Service.controller;
 
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
+import com.example.Aucsion_Product_Service.dto.search.ProductSearchResponseDto;
 import com.example.Aucsion_Product_Service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -61,6 +63,21 @@ public class ProductController {
     public ResponseEntity<List<NorProductResponseDto>> getAllNorHandProducts() {
         List<NorProductResponseDto> products = productService.getAllNorHandProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+
+    //
+    @GetMapping("/search")
+    public ResponseEntity<ProductSearchResponseDto> searchReturn(@RequestParam String name){
+
+        ProductSearchResponseDto search = productService.searchProductByName(name);
+        if (search != null) {
+            return se;
+        } else {
+            // 상품이 없을 경우의 로직. 여기서는 간단하게 null을 반환하게 했습니다.
+            // 실제 서비스에서는 적절한 에러 메시지나 상태 코드를 반환하도록 처리할 수 있습니다.
+            return null;
+        };
     }
 
 }
