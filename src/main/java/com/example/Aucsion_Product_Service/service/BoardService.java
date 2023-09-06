@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface BoardService {
     List<PostListResponseDto> getAllBoard();
+
+    List<PostListResponseDto> getBoardByProductId(Long productId);
     void updatePost(Long postId, PostRequestDto postRequestDto);
     void deletePost(Long postId);
     void updateComment(Long commentId, CommentRequestDto commentRequestDto);

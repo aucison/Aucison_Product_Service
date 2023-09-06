@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PostsRepository extends JpaRepository<PostsEntity, Long> {
     List<ProductsEntity> findByCategoryAndKind(String category, String kind);
+
+    List<PostsEntity> findByProductId(Long productId);
 }

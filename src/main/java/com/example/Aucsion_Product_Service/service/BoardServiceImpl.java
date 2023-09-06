@@ -62,6 +62,39 @@ public class BoardServiceImpl implements  BoardService{
                 .collect(Collectors.toList());
     }
 
+
+    @Override
+    public List<PostListResponseDto> getBoardByProductId(Long productId) {
+        List<PostsEntity> postsEntities = postsRepository.findByProductId(productId);
+
+        return postsEntities.stream()
+                .map(postEntity -> {
+                    PostListResponseDto postListResponseDto = PostListResponseDto.builder()
+                            .posts_id(postEntity.getPosts_id())
+                            .title(postEntity.getTitle())
+                            .content(postEntity.getContent())
+                            .createdTime(postEntity.getCreatedTime())
+                            .members_code(postEntity.getMembers_code())
+                            .build();
+
+                    List<CommentsEntity> commentsEntities = commentsRepository.findByPostsId(postEntity.getPosts_id());
+
+                    List<CommentListResponseDto> commentListResponseDtos = commentsEntities.stream()
+                            .map(commentEntity -> CommentListResponseDto.builder()
+                                    .comments_id(commentEntity.getComments_id())
+                                    .content(commentEntity.getContent())
+                                    .createdTime(commentEntity.getCreatedTime())
+                                    .members_code(commentEntity.getMembers_code())
+                                    .build())
+                            .collect(Collectors.toList());
+
+                    postListResponseDto.setComments(commentListResponseDtos);
+
+                    return postListResponseDto;
+                })
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void updatePost(Long postId, PostRequestDto postRequestDto) {
         PostsEntity post = postsRepository.findById(postId)
