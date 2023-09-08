@@ -1,6 +1,7 @@
 package com.example.Aucsion_Product_Service.controller;
 
 
+import com.example.Aucsion_Product_Service.dto.ApiResponse;
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
 import com.example.Aucsion_Product_Service.service.ProductService;
@@ -38,7 +39,7 @@ public class ProductController {
     }
 
 
-
+/*
     @GetMapping("/auc/nothand/list")
     public ResponseEntity<List<AucProductResponseDto>> getAllAucNothandProducts() {
         List<AucProductResponseDto> products = productService.getAllAucNothandProducts();
@@ -61,6 +62,18 @@ public class ProductController {
     public ResponseEntity<List<NorProductResponseDto>> getAllNorHandProducts() {
         List<NorProductResponseDto> products = productService.getAllNorHandProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+    */
+
+    //ApiResponse형태로 변경하기
+
+    //apiresponse를 사용할 경우 일관성이 높아지고 가독성이 높아진다
+    //다만 reponseentity를 사용할 경우 좀 더 세부적인 컨트롤이 가능하다
+
+    @GetMapping("/auc/nothand/list")
+    public ApiResponse<List<AucProductResponseDto>> getAllAucNothandProducts() {
+        List<AucProductResponseDto> products = productService.getAllAucNothandProducts();
+        return ApiResponse.createSuccess(products);
     }
 
 }
