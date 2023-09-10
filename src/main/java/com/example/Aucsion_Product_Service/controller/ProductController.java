@@ -2,12 +2,9 @@ package com.example.Aucsion_Product_Service.controller;
 
 
 import com.example.Aucsion_Product_Service.dto.ApiResponse;
-import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
-import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
+import com.example.Aucsion_Product_Service.dto.auc_nor.AucsProductResponseDto;
 import com.example.Aucsion_Product_Service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,26 +38,26 @@ public class ProductController {
 
 /*
     @GetMapping("/auc/nothand/list")
-    public ResponseEntity<List<AucProductResponseDto>> getAllAucNothandProducts() {
-        List<AucProductResponseDto> products = productService.getAllAucNothandProducts();
+    public ResponseEntity<List<AucsProductResponseDto>> getAllAucNothandProducts() {
+        List<AucsProductResponseDto> products = productService.getAllAucNothandProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/auc/hand/list")
-    public ResponseEntity<List<AucProductResponseDto>> getAllAucHandProducts() {
-        List<AucProductResponseDto> products = productService.getAllAucHandProducts();
+    public ResponseEntity<List<AucsProductResponseDto>> getAllAucHandProducts() {
+        List<AucsProductResponseDto> products = productService.getAllAucHandProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/nor/nothand/list")
-    public ResponseEntity<List<NorProductResponseDto>> getAllNorNothandProducts() {
-        List<NorProductResponseDto> products = productService.getAllNorNothandProducts();
+    public ResponseEntity<List<SaleProductResponseDto>> getAllNorNothandProducts() {
+        List<SaleProductResponseDto> products = productService.getAllNorNothandProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/nor/hand/list")
-    public ResponseEntity<List<NorProductResponseDto>> getAllNorHandProducts() {
-        List<NorProductResponseDto> products = productService.getAllNorHandProducts();
+    public ResponseEntity<List<SaleProductResponseDto>> getAllNorHandProducts() {
+        List<SaleProductResponseDto> products = productService.getAllNorHandProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
     */
@@ -71,8 +68,8 @@ public class ProductController {
     //다만 reponseentity를 사용할 경우 좀 더 세부적인 컨트롤이 가능하다
 
     @GetMapping("/auc/nothand/list")
-    public ApiResponse<List<AucProductResponseDto>> getAllAucNothandProducts() {
-        List<AucProductResponseDto> products = productService.getAllAucNothandProducts();
+    public ApiResponse<List<AucsProductResponseDto>> getAllAucNothandProducts() {
+        List<AucsProductResponseDto> products = productService.getAllAucsNormProducts();
         return ApiResponse.createSuccess(products);
     }
 

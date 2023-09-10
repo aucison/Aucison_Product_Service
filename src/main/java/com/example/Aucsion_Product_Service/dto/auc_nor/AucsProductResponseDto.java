@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class AucProductResponseDto {
+public class AucsProductResponseDto {
     //경매상품들 검색 결과 반환시 사용하는 Dto
 
     private String name;

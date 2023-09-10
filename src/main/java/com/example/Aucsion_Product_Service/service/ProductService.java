@@ -1,22 +1,18 @@
 package com.example.Aucsion_Product_Service.service;
 
 import com.example.Aucsion_Product_Service.dto.*;
-import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
-import com.example.Aucsion_Product_Service.dto.auc_nor.NorProductResponseDto;
+import com.example.Aucsion_Product_Service.dto.auc_nor.AucsProductResponseDto;
+import com.example.Aucsion_Product_Service.dto.auc_nor.SaleProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.search.ProductSearchResponseDto;
 
 import java.util.List;
 
 public interface ProductService {
-//    List<AucProductResponseDto> getAllAucProducts();
-//
-//    List<NorProductResponseDto> getAllNorProducts();
 
-
-    List<AucProductResponseDto> getAllAucHandProducts();
-    List<AucProductResponseDto> getAllAucNothandProducts();
-    List<NorProductResponseDto> getAllNorHandProducts();
-    List<NorProductResponseDto> getAllNorNothandProducts();
+    List<AucsProductResponseDto> getAllAucsHandProducts();
+    List<AucsProductResponseDto> getAllAucsNormProducts();
+    List<SaleProductResponseDto> getAllSaleHandProducts();
+    List<SaleProductResponseDto> getAllSaleNormProducts();
 
     void registerProduct(ProductRegisterRequestDto dto);
 
