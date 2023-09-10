@@ -42,6 +42,9 @@ public class ProductsEntity extends BaseTimeEntity {
     @Column(name = "summary", nullable = true)
     private String summary;         //상품 한줄 설명
 
+    @Column(name = "brand", nullable = true)
+    private String brand;     //브랜드명
+
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auc_infos_id")
@@ -57,7 +60,7 @@ public class ProductsEntity extends BaseTimeEntity {
 
     @Builder
     public ProductsEntity(String name, String kind, String category,LocalDateTime createdTime,
-                          String information, String summary, Long products_code
+                          String information, String summary, String brand
                           /*Auc_infosEntity auc_infosEntity, Nor_infosEntity nor_infosEntity*/) {
         this.name = name;
         this.kind = kind;
@@ -65,6 +68,7 @@ public class ProductsEntity extends BaseTimeEntity {
         this.createdTime = createdTime;
         this.information = information;
         this.summary = summary;
+        this.brand = brand;
         //this.auc_infosEntity = auc_infosEntity;
         //this.nor_infosEntity = nor_infosEntity;
     }

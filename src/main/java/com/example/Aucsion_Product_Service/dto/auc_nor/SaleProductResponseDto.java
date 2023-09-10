@@ -18,6 +18,7 @@ public class SaleProductResponseDto {
     private LocalDateTime createdTime;  // Date 타입에서 LocalDateTime으로 변경
     private String information;
     private String summary;
+    private String brand;
     private boolean is_wish;
 
 

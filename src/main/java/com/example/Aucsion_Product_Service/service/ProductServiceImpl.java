@@ -88,6 +88,7 @@ public class ProductServiceImpl implements ProductService{
                         .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
+                        .brand(product.getBrand())
                         .start_price(product.getAuc_infosEntity().getStart_price())
                         .end(product.getAuc_infosEntity().getEnd())
                         .bids_code(product.getAuc_infosEntity().getBids_code())
@@ -103,6 +104,7 @@ public class ProductServiceImpl implements ProductService{
                         .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
+                        .brand(product.getBrand())
                         .start_price(product.getAuc_infosEntity().getStart_price())
                         .end(product.getAuc_infosEntity().getEnd())
                         .bids_code(product.getAuc_infosEntity().getBids_code())
@@ -118,6 +120,7 @@ public class ProductServiceImpl implements ProductService{
                         .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
+                        .brand(product.getBrand())
                         .price(product.getNor_infosEntity().getPrice())
                         .build()
         ).collect(Collectors.toList());
@@ -131,6 +134,7 @@ public class ProductServiceImpl implements ProductService{
                         .createdTime(product.getCreatedTime())
                         .information(product.getInformation())
                         .summary(product.getSummary())
+                        .brand(product.getBrand())
                         .price(product.getNor_infosEntity().getPrice())
                         .build()
         ).collect(Collectors.toList());
@@ -147,6 +151,7 @@ public class ProductServiceImpl implements ProductService{
                 .category(dto.getCategory())
                 .information(dto.getInformation())
                 .summary(dto.getSummary())
+                .brand(dto.getBrand())
                 .build();
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
 
@@ -188,6 +193,7 @@ public class ProductServiceImpl implements ProductService{
                     .name(product.getName())
                     .createdTime(product.getCreatedTime())
                     .summary(product.getSummary())
+                    .brand(product.getBrand())
                     .build();
         } else {
             return null;  // 없을 경우 로직 생각
@@ -209,7 +215,8 @@ public class ProductServiceImpl implements ProductService{
                 .category(product.getCategory())
                 .createdTime(product.getCreatedTime())
                 .information(product.getInformation())
-                .summary(product.getSummary());
+                .summary(product.getSummary())
+                .brand(product.getBrand());
 
         // 경매 상품 추가정보
         if ("auc".equals(product.getCategory()) && product.getAuc_infosEntity() != null) {

@@ -19,6 +19,7 @@ public class ProductSearchResponseDto {
     private String name;
     private LocalDateTime createdTime;
     private String summary;
+    private String brand;
 
     // 경매상품 정보
     private float start_price;
