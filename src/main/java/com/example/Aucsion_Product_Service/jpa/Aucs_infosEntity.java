@@ -14,12 +14,12 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @Table(name = "auc_infos")
-public class Auc_infosEntity extends BaseTimeEntity {
+public class Aucs_infosEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "auc_infos_id")
-    private Long auc_infos_id;       //PK
+    @Column(name = "aucs_infos_id")
+    private Long aucs_infos_id;       //PK
 
 
     @Column(name = "start_price", nullable = false)
@@ -38,7 +38,7 @@ public class Auc_infosEntity extends BaseTimeEntity {
 
 
     @Builder
-    public Auc_infosEntity(float start_price, Date end, String bids_code, ProductsEntity productsEntity){
+    public Aucs_infosEntity(float start_price, Date end, String bids_code, ProductsEntity productsEntity){
         this.start_price = start_price;
         this.end = end;
         this.bids_code=bids_code;

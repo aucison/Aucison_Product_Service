@@ -47,13 +47,13 @@ public class ProductsEntity extends BaseTimeEntity {
 
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auc_infos_id")
-    private Auc_infosEntity auc_infosEntity;
+    @JoinColumn(name = "aucs_infos_id")
+    private Aucs_infosEntity aucs_infosEntity;
 
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nor_infos_id")
-    private Nor_infosEntity nor_infosEntity;
+    @JoinColumn(name = "sale_infos_id")
+    private Sale_infosEntity sale_infosEntity;
 
     @OneToMany(mappedBy = "productsEntity")
     List<PostsEntity> postsEntities = new ArrayList<>();

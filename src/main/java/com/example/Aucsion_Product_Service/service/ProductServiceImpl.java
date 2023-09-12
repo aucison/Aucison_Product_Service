@@ -19,14 +19,14 @@ public class ProductServiceImpl implements ProductService{
 
 
     ProductsRepository productsRepository;
-    Nor_infosRepository nor_infosRepository;
-    Auc_infosRepository auc_infosRepository;
+    Sale_infosRepository sale_infosRepository;
+    Aucs_infosRepository aucs_infosRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository, Nor_infosRepository nor_infosRepository, Auc_infosRepository auc_infosRepository){
+    public ProductServiceImpl(ProductsRepository productsRepository, Sale_infosRepository sale_infosRepository, Aucs_infosRepository aucs_infosRepository){
         this.productsRepository=productsRepository;
-        this.auc_infosRepository=auc_infosRepository;
-        this.nor_infosRepository=nor_infosRepository;
+        this.aucs_infosRepository=aucs_infosRepository;
+        this.sale_infosRepository=sale_infosRepository;
     }
 
 
@@ -94,9 +94,9 @@ public class ProductServiceImpl implements ProductService{
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .brand(product.getBrand())
-                        .start_price(product.getAuc_infosEntity().getStart_price())
-                        .end(product.getAuc_infosEntity().getEnd())
-                        .bids_code(product.getAuc_infosEntity().getBids_code())
+                        .start_price(product.getAucs_infosEntity().getStart_price())
+                        .end(product.getAucs_infosEntity().getEnd())
+                        .bids_code(product.getAucs_infosEntity().getBids_code())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -113,9 +113,9 @@ public class ProductServiceImpl implements ProductService{
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .brand(product.getBrand())
-                        .start_price(product.getAuc_infosEntity().getStart_price())
-                        .end(product.getAuc_infosEntity().getEnd())
-                        .bids_code(product.getAuc_infosEntity().getBids_code())
+                        .start_price(product.getAucs_infosEntity().getStart_price())
+                        .end(product.getAucs_infosEntity().getEnd())
+                        .bids_code(product.getAucs_infosEntity().getBids_code())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -132,7 +132,7 @@ public class ProductServiceImpl implements ProductService{
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .brand(product.getBrand())
-                        .price(product.getNor_infosEntity().getPrice())
+                        .price(product.getSale_infosEntity().getPrice())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -149,7 +149,7 @@ public class ProductServiceImpl implements ProductService{
                         .information(product.getInformation())
                         .summary(product.getSummary())
                         .brand(product.getBrand())
-                        .price(product.getNor_infosEntity().getPrice())
+                        .price(product.getSale_infosEntity().getPrice())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -173,22 +173,22 @@ public class ProductServiceImpl implements ProductService{
 
         //이후 경매인지 비경매인지 체크를 한 후 추가적으로 저장한다.
         if ("auc".equals(dto.getCategory())) {
-            Auc_infosEntity aucInfo = Auc_infosEntity.builder()
+            Aucs_infosEntity aucInfo = Aucs_infosEntity.builder()
                     .start_price(dto.getStart_price())
                     .end(dto.getEnd())
                     .bids_code(dto.getBids_code())
                     .productsEntity(product)
                     .build();
 
-            auc_infosRepository.save(aucInfo);
+            aucs_infosRepository.save(aucInfo);
 
         } else if ("nor".equals(dto.getCategory())) {
-            Nor_infosEntity norInfo = Nor_infosEntity.builder()
+            Sale_infosEntity norInfo = Sale_infosEntity.builder()
                     .price(dto.getPrice())
                     .productsEntity(product)
                     .build();
 
-            nor_infosRepository.save(norInfo);
+            sale_infosRepository.save(norInfo);
         }
 
         //흐음 1대 1관계를 유지하려면 이렇게 해야한다네...
@@ -242,15 +242,15 @@ public class ProductServiceImpl implements ProductService{
                 .brand(product.getBrand());
 
         // 경매 상품 추가정보
-        if ("auc".equals(product.getCategory()) && product.getAuc_infosEntity() != null) {
-            builder.start_price(product.getAuc_infosEntity().getStart_price())
-                    .end(product.getAuc_infosEntity().getEnd())
-                    .bids_code(product.getAuc_infosEntity().getBids_code());
+        if ("auc".equals(product.getCategory()) && product.getAucs_infosEntity() != null) {
+            builder.start_price(product.getAucs_infosEntity().getStart_price())
+                    .end(product.getAucs_infosEntity().getEnd())
+                    .bids_code(product.getAucs_infosEntity().getBids_code());
         }
 
         // 비경매 상품 추가정보
-        if ("nor".equals(product.getCategory()) && product.getNor_infosEntity() != null) {
-            builder.price(product.getNor_infosEntity().getPrice());
+        if ("nor".equals(product.getCategory()) && product.getSale_infosEntity() != null) {
+            builder.price(product.getSale_infosEntity().getPrice());
         }
 
         return builder.build();
