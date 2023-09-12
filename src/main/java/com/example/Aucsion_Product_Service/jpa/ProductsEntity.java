@@ -1,11 +1,13 @@
 package com.example.Aucsion_Product_Service.jpa;
 
 
+import com.example.Aucsion_Product_Service.time.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "products")
-public class ProductsEntity {
+public class ProductsEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +27,14 @@ public class ProductsEntity {
     @Column(name = "name", nullable = false)
     private String name;            //상품명
 
-    @Column(name = "category", nullable = false)
-    private String category;        //상품 분류
+    @Column(name = "kind", nullable = false)
+    private String kind;            // 상품분류(일반(hand) / 핸드메이드(nonhand)
 
-    @Column(name = "created_at", nullable = false)
-    private Date created_at;        //등록 시간
+    @Column(name = "category", nullable = false)
+    private String category;        // 경매여부(경매(auc) / 비경매(nor))
+
+    @Column(name = "createdTime", nullable = false)
+    private LocalDateTime createdTime;        //등록 시간
 
     @Column(name = "information", nullable = true)
     private String information;     //상품 정보
@@ -37,9 +42,8 @@ public class ProductsEntity {
     @Column(name = "summary", nullable = true)
     private String summary;         //상품 한줄 설명
 
-    @Column(name = "products_code", nullable = false)
-    //@GeneratedValue(strategy = GenerationType.IDENTITY) -> 기본키 전용으로 이렇게 하지 말라고 함 -> 데이터베이스 트리거 방식 권장
-    private Long products_code;     //상품 고유 식별 코드
+    @Column(name = "brand", nullable = true)
+    private String brand;     //브랜드명
 
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -55,15 +59,16 @@ public class ProductsEntity {
     List<PostsEntity> postsEntities = new ArrayList<>();
 
     @Builder
-    public ProductsEntity(String name, String category, Date created_at,
-                          String information, String summary, Long products_code
+    public ProductsEntity(String name, String kind, String category,LocalDateTime createdTime,
+                          String information, String summary, String brand
                           /*Auc_infosEntity auc_infosEntity, Nor_infosEntity nor_infosEntity*/) {
         this.name = name;
+        this.kind = kind;
         this.category = category;
-        this.created_at = created_at;
+        this.createdTime = createdTime;
         this.information = information;
         this.summary = summary;
-        this.products_code = products_code;
+        this.brand = brand;
         //this.auc_infosEntity = auc_infosEntity;
         //this.nor_infosEntity = nor_infosEntity;
     }

@@ -1,10 +1,11 @@
-package com.example.Aucsion_Product_Service.dto;
+package com.example.Aucsion_Product_Service.dto.search;
 
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,13 +17,13 @@ public class ProductSearchResponseDto {
 
 
     private String name;
-    private String category;
-    private Date created_at;
+    private LocalDateTime createdTime;
     private String summary;
+    private String brand;
 
     // 경매상품 정보
     private float start_price;
-    private Date end;
+    private Date end;   //end의 경우 사용자나 시스템 로직에 의해 명시적으로 설정해야 하므로 Date형
     private String bids_code;
 
     // 비경매상품 정보

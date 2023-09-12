@@ -1,17 +1,19 @@
 package com.example.Aucsion_Product_Service.jpa;
 
 
+import com.example.Aucsion_Product_Service.time.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "comments")
-public class CommentsEntity {
+public class CommentsEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comments_id")
@@ -22,7 +24,7 @@ public class CommentsEntity {
     private String content;             //답변
 
     @Column(name = "title", nullable = false)
-    private Date c_created_at;            //댓글 등록시간
+    private LocalDateTime createdTime;            //댓글 등록시간
 
     @Column(name = "title", nullable = false)
     private String members_code;        //답변 작성자 식별 코드

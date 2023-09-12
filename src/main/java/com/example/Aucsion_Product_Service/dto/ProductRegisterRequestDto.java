@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -11,14 +12,20 @@ import java.util.Date;
 @Builder
 public class ProductRegisterRequestDto {
 
-    //상품 등록시 사용하는 Dto
 
+    //판매자 이메일 해줘야함
+
+
+    //상품 등록시 사용하는 Dto
     private String name;
+    private String kind;
     private String category;
-    private Date created_at;
+    private LocalDateTime createdTime;
     private String information;
     private String summary;
-    private Long products_code;
+    private String brand;
+
+
 
     // 경매상품 정보
     private float start_price;
