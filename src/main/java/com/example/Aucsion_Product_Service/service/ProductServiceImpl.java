@@ -5,6 +5,8 @@ import com.example.Aucsion_Product_Service.dto.*;
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucsProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.auc_nor.SaleProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.search.ProductSearchResponseDto;
+import com.example.Aucsion_Product_Service.exception.AppException;
+import com.example.Aucsion_Product_Service.exception.ErrorCode;
 import com.example.Aucsion_Product_Service.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +84,9 @@ public class ProductServiceImpl implements ProductService{
     //위 4개의 서비스에서 iswish를 가져와야하는데 아직 로직을 고민중...
     public List<AucsProductResponseDto> getAllAucsHandProducts() {
         List<ProductsEntity> products = productsRepository.findByCategoryAndKind("AUCS", "HAND");
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_EXIST);
+        }
         return products.stream().map(product ->
                 AucsProductResponseDto.builder()
                         .name(product.getName())
@@ -98,6 +103,9 @@ public class ProductServiceImpl implements ProductService{
 
     public List<AucsProductResponseDto> getAllAucsNormProducts() {
         List<ProductsEntity> products = productsRepository.findByCategoryAndKind("AUCS", "NORM");
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_EXIST);
+        }
         return products.stream().map(product ->
                 AucsProductResponseDto.builder()
                         .name(product.getName())
@@ -114,6 +122,9 @@ public class ProductServiceImpl implements ProductService{
 
     public List<SaleProductResponseDto> getAllSaleHandProducts() {
         List<ProductsEntity> products = productsRepository.findByCategoryAndKind("SALE", "HAND");
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_EXIST);
+        }
         return products.stream().map(product ->
                 SaleProductResponseDto.builder()
                         .name(product.getName())
@@ -128,6 +139,9 @@ public class ProductServiceImpl implements ProductService{
 
     public List<SaleProductResponseDto> getAllSaleNormProducts() {
         List<ProductsEntity> products = productsRepository.findByCategoryAndKind("SALE", "NORM");
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_EXIST);
+        }
         return products.stream().map(product ->
                 SaleProductResponseDto.builder()
                         .name(product.getName())
@@ -188,6 +202,11 @@ public class ProductServiceImpl implements ProductService{
 
         ProductsEntity product = productsRepository.findByName(name);
 
+        if (product == null) {
+            throw new AppException(ErrorCode.SEARCH_NOT_FOUND);
+        }
+
+
         if (product != null) {
             return ProductSearchResponseDto.builder()
                     .name(product.getName())
@@ -209,6 +228,10 @@ public class ProductServiceImpl implements ProductService{
         //추후 posts, comments도 여기서 제공하게 할 수도 있음
 
         ProductsEntity product = productsRepository.findByProductsCode(product_code);
+
+        if (product == null) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
 
         ProductDetailResponseDto.ProductDetailResponseDtoBuilder builder = ProductDetailResponseDto.builder()
                 .name(product.getName())
