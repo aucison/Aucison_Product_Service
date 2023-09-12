@@ -23,6 +23,7 @@ public class ProductDetailResponseDto {
     private LocalDateTime createdTime;
     private String information;
     private String summary;
+    private String brand;
 
 
 
