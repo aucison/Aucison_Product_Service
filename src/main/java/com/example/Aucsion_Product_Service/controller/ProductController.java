@@ -5,6 +5,8 @@ import com.example.Aucsion_Product_Service.dto.ApiResponse;
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucsProductResponseDto;
 import com.example.Aucsion_Product_Service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
