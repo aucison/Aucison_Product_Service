@@ -1,13 +1,7 @@
 package com.example.Aucsion_Product_Service.service;
 
-import com.example.Aucsion_Product_Service.dto.board.CommentListResponseDto;
-import com.example.Aucsion_Product_Service.dto.board.CommentRequestDto;
-import com.example.Aucsion_Product_Service.dto.board.PostListResponseDto;
-import com.example.Aucsion_Product_Service.dto.board.PostRequestDto;
-import com.example.Aucsion_Product_Service.jpa.CommentsEntity;
-import com.example.Aucsion_Product_Service.jpa.CommentsRepository;
-import com.example.Aucsion_Product_Service.jpa.PostsEntity;
-import com.example.Aucsion_Product_Service.jpa.PostsRepository;
+import com.example.Aucsion_Product_Service.dto.board.*;
+import com.example.Aucsion_Product_Service.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +34,7 @@ public class BoardServiceImpl implements  BoardService{
                             .title(postEntity.getTitle())
                             .content(postEntity.getContent())
                             .createdTime(postEntity.getCreatedTime())
-                            .members_code(postEntity.getMembers_code())
+                            .email(postEntity.getEmail())
                             .build();
 
                     List<CommentsEntity> commentsEntities = commentsRepository.findByPostsId(postEntity.getPosts_id());
@@ -51,7 +45,7 @@ public class BoardServiceImpl implements  BoardService{
                                     .comments_id(commentEntity.getComments_id())
                                     .content(commentEntity.getContent())
                                     .createdTime(commentEntity.getCreatedTime())
-                                    .members_code(commentEntity.getMembers_code())
+                                    .email(commentEntity.getEmail())
                                     .build())
                             .collect(Collectors.toList());
 
@@ -74,7 +68,7 @@ public class BoardServiceImpl implements  BoardService{
                             .title(postEntity.getTitle())
                             .content(postEntity.getContent())
                             .createdTime(postEntity.getCreatedTime())
-                            .members_code(postEntity.getMembers_code())
+                            .email(postEntity.getEmail())
                             .build();
 
                     List<CommentsEntity> commentsEntities = commentsRepository.findByPostsId(postEntity.getPosts_id());
@@ -84,7 +78,7 @@ public class BoardServiceImpl implements  BoardService{
                                     .comments_id(commentEntity.getComments_id())
                                     .content(commentEntity.getContent())
                                     .createdTime(commentEntity.getCreatedTime())
-                                    .members_code(commentEntity.getMembers_code())
+                                    .email(commentEntity.getEmail())
                                     .build())
                             .collect(Collectors.toList());
 
@@ -123,6 +117,46 @@ public class BoardServiceImpl implements  BoardService{
         CommentsEntity comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
         commentsRepository.delete(comment);
+    }
+
+    @Override
+    public PostRegistResponseDto registPost(PostRegistRequestDto dto){
+        PostsEntity post = PostsEntity.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .email(dto.getEmail())
+                .build();
+
+        // 'createdTime'이 자동으로 설정될 것이므로 필요 x
+
+
+        PostsEntity savedPost = postsRepository.save(post);
+
+        // savedPost에는 이제 데이터베이스에서 자동 생성된 ID가 포함되어 있음
+        PostRegistResponseDto responseDto = PostRegistResponseDto.builder()
+                .posts_id(savedPost.getPosts_id())
+                .build();
+
+        return responseDto;
+    }
+
+    @Override
+    public CommentRegistResponseDto registComment(CommentRegistRequestDto dto){
+        CommentsEntity comment = CommentsEntity.builder()
+                .content(dto.getContent())
+                .email(dto.getEmail())
+                .build();
+
+        // 'createdTime'이 자동으로 설정될 것이므로 필요 x
+
+        CommentsEntity savedComment = commentsRepository.save(comment);
+
+        //이제 생성된 ID 있으므로
+        CommentRegistResponseDto responseDto = CommentRegistResponseDto.builder()
+                .comment_id(savedComment.getComments_id())
+                .build();
+
+        return responseDto;
     }
 
 

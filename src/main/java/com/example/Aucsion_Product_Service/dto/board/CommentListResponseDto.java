@@ -17,5 +17,5 @@ public class CommentListResponseDto {
     private LocalDateTime createdTime;
 
     //user-service에서 닉네임 가져오기
-    private String members_code;
+    private String email;
 }

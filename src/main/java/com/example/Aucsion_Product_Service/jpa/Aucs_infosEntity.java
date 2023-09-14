@@ -33,7 +33,7 @@ public class Aucs_infosEntity extends BaseTimeEntity {
     @Column(name = "bids_code", nullable = false)
     private String bids_code;       //실시간 가격 식별 코드
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "auc_infosEntity")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "aucs_infosEntity")
     private ProductsEntity productsEntity;
 
 
