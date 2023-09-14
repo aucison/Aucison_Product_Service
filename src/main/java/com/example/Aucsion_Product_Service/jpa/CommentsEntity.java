@@ -37,6 +37,8 @@ public class CommentsEntity extends BaseTimeEntity {
     @JoinColumn(name = "posts_id")
     private PostsEntity postsEntity;
 
+
+    //setter대신 이런 수고를 하자
     public void update(String content) {
         this.content = content;
     }

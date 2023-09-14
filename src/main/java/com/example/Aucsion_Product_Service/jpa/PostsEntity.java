@@ -43,6 +43,7 @@ public class PostsEntity extends BaseTimeEntity {
     private ProductsEntity productsEntity;
 
 
+    //setter대신 이런 수고를 하자
     public void update(String title, String content) {
         this.title = title;
         this.content = content;

@@ -2,10 +2,7 @@ package com.example.Aucsion_Product_Service.controller;
 
 
 import com.example.Aucsion_Product_Service.dto.ApiResponse;
-import com.example.Aucsion_Product_Service.dto.board.CommentRegistRequestDto;
-import com.example.Aucsion_Product_Service.dto.board.PostListResponseDto;
-import com.example.Aucsion_Product_Service.dto.board.PostRegistRequestDto;
-import com.example.Aucsion_Product_Service.dto.board.PostRegistResponseDto;
+import com.example.Aucsion_Product_Service.dto.board.*;
 import com.example.Aucsion_Product_Service.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,8 +37,8 @@ public class BoardController {
     // 상품 개별 조회에서 게시물 작성
     // post도 마치 get처럼 짠다 이방식은
     @PostMapping("/detail/{products_id}/board")
-    public ApiResponse<PostRegistResponseDto> createPost(@PathVariable("products_id") Long productId,
-                                                         @RequestBody PostRegistRequestDto postRegistRequestDto) {
+    public ApiResponse<PostCRUDResponseDto> createPost(@PathVariable("products_id") Long productId,
+                                                       @RequestBody PostRegistRequestDto postRegistRequestDto) {
 
         return ApiResponse.createSuccess(boardService.registPost(postRegistRequestDto));
     }
@@ -53,6 +50,34 @@ public class BoardController {
                                         @RequestBody CommentRegistRequestDto commentRegistRequestDto) {
 
         return ApiResponse.createSuccess(boardService.registComment(commentRegistRequestDto));
+    }
+
+    @PutMapping("/detail/{products_id}/board/{posts_id}")
+    public ApiResponse<PostCRUDResponseDto> updatePost(@PathVariable("products_id") Long productId,
+                                                       @PathVariable("posts_id") Long postId,
+                                                       @RequestBody PostUpdateRequestDto requestDto) {
+        return ApiResponse.createSuccess(boardService.updatePost(postId, requestDto));
+    }
+
+    @DeleteMapping("/detail/{products_id}/board/{posts_id}")
+    public ApiResponse<PostCRUDResponseDto> deletePost(@PathVariable("products_id") Long productId,
+                                                       @PathVariable("posts_id") Long postId) {
+        return ApiResponse.createSuccess(boardService.deletePost(postId));
+    }
+
+    @PutMapping("/detail/{products_id}/board/{posts_id}/comment/{comments_id}")
+    public ApiResponse<CommentCRUDResponseDto> updateComment(@PathVariable("products_id") Long productId,
+                                                             @PathVariable("posts_id") Long postId,
+                                                             @PathVariable("comments_id") Long commentId,
+                                                             @RequestBody CommentUpdateRequestDto requestDto) {
+        return ApiResponse.createSuccess(boardService.updateComment(commentId, requestDto));
+    }
+
+    @DeleteMapping("/detail/{products_id}/board/{posts_id}/comment/{comments_id}")
+    public ApiResponse<CommentCRUDResponseDto> deleteComment(@PathVariable("products_id") Long productId,
+                                                             @PathVariable("posts_id") Long postId,
+                                                             @PathVariable("comments_id") Long commentId) {
+        return ApiResponse.createSuccess(boardService.deleteComment(commentId));
     }
 
 }
