@@ -1,7 +1,6 @@
 package com.example.Aucsion_Product_Service.controller;
 
 
-import com.example.Aucsion_Product_Service.dto.auc_nor.AucProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.board.PostListResponseDto;
 import com.example.Aucsion_Product_Service.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
