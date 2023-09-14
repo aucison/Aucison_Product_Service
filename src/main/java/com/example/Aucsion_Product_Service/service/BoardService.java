@@ -13,7 +13,7 @@ public interface BoardService {
     void updateComment(Long commentId, CommentRequestDto commentRequestDto);
     void deleteComment(Long commentId);
 
-    void registPost(PostRegistRequestDto dto));
+    void registPost(PostRegistRequestDto dto);
 
     void registComment(CommentRegistRequestDto dto);
 
