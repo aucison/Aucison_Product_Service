@@ -8,14 +8,14 @@ public interface BoardService {
     List<PostListResponseDto> getAllBoard();
 
     List<PostListResponseDto> getBoardByProductId(Long productId);
-    void updatePost(Long postId, PostRequestDto postRequestDto);
-    void deletePost(Long postId);
-    void updateComment(Long commentId, CommentRequestDto commentRequestDto);
-    void deleteComment(Long commentId);
+    PostCRUDResponseDto updatePost(Long postId, PostUpdateRequestDto postRequestDto);
+    PostCRUDResponseDto deletePost(Long postId);
+    CommentCRUDResponseDto updateComment(Long commentId, CommentUpdateRequestDto commentRequestDto);
+    CommentCRUDResponseDto deleteComment(Long commentId);
 
-    PostRegistResponseDto registPost(PostRegistRequestDto dto);
+    PostCRUDResponseDto registPost(PostRegistRequestDto dto);
 
-    CommentRegistResponseDto registComment(CommentRegistRequestDto dto);
+    CommentCRUDResponseDto registComment(CommentRegistRequestDto dto);
 
 
 }

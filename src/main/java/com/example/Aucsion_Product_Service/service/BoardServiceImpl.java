@@ -89,38 +89,10 @@ public class BoardServiceImpl implements  BoardService{
                 .collect(Collectors.toList());
     }
 
+    //게시물과 댓글에 대한 CRUD 서비스 코드
+    //최대한 간결하고 직관성있고 통일성있게...
     @Override
-    public void updatePost(Long postId, PostRequestDto postRequestDto) {
-        PostsEntity post = postsRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
-        post.update(postRequestDto.getTitle(), postRequestDto.getContent());
-        postsRepository.save(post);
-    }
-
-    @Override
-    public void deletePost(Long postId) {
-        PostsEntity post = postsRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
-        postsRepository.delete(post);
-    }
-
-    @Override
-    public void updateComment(Long commentId, CommentRequestDto commentRequestDto) {
-        CommentsEntity comment = commentsRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
-        comment.update(commentRequestDto.getContent());
-        commentsRepository.save(comment);
-    }
-
-    @Override
-    public void deleteComment(Long commentId) {
-        CommentsEntity comment = commentsRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
-        commentsRepository.delete(comment);
-    }
-
-    @Override
-    public PostRegistResponseDto registPost(PostRegistRequestDto dto){
+    public PostCRUDResponseDto registPost(PostRegistRequestDto dto){
         PostsEntity post = PostsEntity.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
@@ -133,7 +105,7 @@ public class BoardServiceImpl implements  BoardService{
         PostsEntity savedPost = postsRepository.save(post);
 
         // savedPost에는 이제 데이터베이스에서 자동 생성된 ID가 포함되어 있음
-        PostRegistResponseDto responseDto = PostRegistResponseDto.builder()
+        PostCRUDResponseDto responseDto = PostCRUDResponseDto.builder()
                 .posts_id(savedPost.getPosts_id())
                 .build();
 
@@ -141,7 +113,7 @@ public class BoardServiceImpl implements  BoardService{
     }
 
     @Override
-    public CommentRegistResponseDto registComment(CommentRegistRequestDto dto){
+    public CommentCRUDResponseDto registComment(CommentRegistRequestDto dto){
         CommentsEntity comment = CommentsEntity.builder()
                 .content(dto.getContent())
                 .email(dto.getEmail())
@@ -152,12 +124,65 @@ public class BoardServiceImpl implements  BoardService{
         CommentsEntity savedComment = commentsRepository.save(comment);
 
         //이제 생성된 ID 있으므로
-        CommentRegistResponseDto responseDto = CommentRegistResponseDto.builder()
+        CommentCRUDResponseDto responseDto = CommentCRUDResponseDto.builder()
                 .comment_id(savedComment.getComments_id())
                 .build();
 
         return responseDto;
     }
+
+    @Override
+    public PostCRUDResponseDto updatePost(Long postId, PostUpdateRequestDto postRequestDto) {
+        PostsEntity post = postsRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+        post.update(postRequestDto.getTitle(), postRequestDto.getContent());
+
+        /*
+        postsRepository.save(post);
+
+        return PostCRUDResponseDto.builder().posts_id(postId).build();
+
+         */
+
+        PostsEntity updatedPost = postsRepository.save(post);
+
+        PostCRUDResponseDto responseDto = PostCRUDResponseDto.builder()
+                .posts_id(updatedPost.getPosts_id())
+                .build();
+
+        return responseDto;
+
+        //위 식과 아래식은 큰 차이는 없지만 아래식이 좀 더 명시적이고 동기화 상태 보장함
+        //내 생각에 간편한 식은 delete에 어울릴 듯
+    }
+
+    @Override
+    public PostCRUDResponseDto deletePost(Long postId) {
+        postsRepository.deleteById(postId);
+        return PostCRUDResponseDto.builder().posts_id(postId).build();
+    }
+
+    @Override
+    public CommentCRUDResponseDto updateComment(Long commentId, CommentUpdateRequestDto commentRequestDto) {
+        CommentsEntity comment = commentsRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
+
+        CommentsEntity updatedComment = commentsRepository.save(comment);
+
+        CommentCRUDResponseDto responseDto = CommentCRUDResponseDto.builder()
+                .comment_id(updatedComment.getComments_id())
+                .build();
+
+        return responseDto;
+    }
+
+    @Override
+    public CommentCRUDResponseDto deleteComment(Long commentId) {
+        commentsRepository.deleteById(commentId);
+        return CommentCRUDResponseDto.builder().comment_id(commentId).build();
+    }
+
+
 
 
 }
