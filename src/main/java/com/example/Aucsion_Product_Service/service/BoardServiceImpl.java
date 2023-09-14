@@ -120,7 +120,7 @@ public class BoardServiceImpl implements  BoardService{
     }
 
     @Override
-    public void registPost(PostRegistRequestDto dto){
+    public PostRegistResponseDto registPost(PostRegistRequestDto dto){
         PostsEntity post = PostsEntity.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
@@ -129,11 +129,19 @@ public class BoardServiceImpl implements  BoardService{
 
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
 
-        postsRepository.save(post);
+
+        PostsEntity savedPost = postsRepository.save(post);
+
+        // savedPost에는 이제 데이터베이스에서 자동 생성된 ID가 포함되어 있음
+        PostRegistResponseDto responseDto = PostRegistResponseDto.builder()
+                .posts_id(savedPost.getPosts_id())
+                .build();
+
+        return responseDto;
     }
 
     @Override
-    public void registComment(CommentRegistRequestDto dto){
+    public CommentRegistResponseDto registComment(CommentRegistRequestDto dto){
         CommentsEntity comment = CommentsEntity.builder()
                 .content(dto.getContent())
                 .email(dto.getEmail())
@@ -141,7 +149,14 @@ public class BoardServiceImpl implements  BoardService{
 
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
 
-        commentsRepository.save(comment);
+        CommentsEntity savedComment = commentsRepository.save(comment);
+
+        //이제 생성된 ID 있으므로
+        CommentRegistResponseDto responseDto = CommentRegistResponseDto.builder()
+                .comment_id(savedComment.getComments_id())
+                .build();
+
+        return responseDto;
     }
 
 

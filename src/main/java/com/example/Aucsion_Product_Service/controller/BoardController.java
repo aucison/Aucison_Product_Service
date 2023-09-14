@@ -2,8 +2,10 @@ package com.example.Aucsion_Product_Service.controller;
 
 
 import com.example.Aucsion_Product_Service.dto.ApiResponse;
+import com.example.Aucsion_Product_Service.dto.board.CommentRegistRequestDto;
 import com.example.Aucsion_Product_Service.dto.board.PostListResponseDto;
 import com.example.Aucsion_Product_Service.dto.board.PostRegistRequestDto;
+import com.example.Aucsion_Product_Service.dto.board.PostRegistResponseDto;
 import com.example.Aucsion_Product_Service.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,9 +38,10 @@ public class BoardController {
 
 
     // 상품 개별 조회에서 게시물 작성
+    // post도 마치 get처럼 짠다 이방식은
     @PostMapping("/detail/{products_id}/board")
-    public ApiResponse<?> createPost(@PathVariable("products_id") Long productId,
-                                     @RequestBody PostRegistRequestDto postRegistRequestDto) {
+    public ApiResponse<PostRegistResponseDto> createPost(@PathVariable("products_id") Long productId,
+                                                         @RequestBody PostRegistRequestDto postRegistRequestDto) {
 
         return ApiResponse.createSuccess(boardService.registPost(postRegistRequestDto));
     }
@@ -48,8 +51,8 @@ public class BoardController {
     public ApiResponse<?> createComment(@PathVariable("products_id") Long productId,
                                         @PathVariable("posts_id") Long postId,
                                         @RequestBody CommentRegistRequestDto commentRegistRequestDto) {
-        boardService.registComment(commentRegistRequestDto);
-        return ApiResponse.createSuccess();
+
+        return ApiResponse.createSuccess(boardService.registComment(commentRegistRequestDto));
     }
 
 }
