@@ -2,6 +2,7 @@ package com.example.Aucsion_Product_Service.jpa;
 
 import com.example.Aucsion_Product_Service.time.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,8 +32,8 @@ public class PostsEntity extends BaseTimeEntity {
     @Column(name = "createdTime", nullable = false)
     private LocalDateTime createdTime;          //등록시간
 
-    @Column(name = "members_code", nullable = false)
-    private String members_code;        //질문 작성자 식별 코드
+    @Column(name = "email", nullable = false)
+    private String email;        //게시글 등록자
 
     @OneToMany(mappedBy = "postsEntity")
     List<CommentsEntity> commentsEntities = new ArrayList<>();
@@ -47,5 +48,13 @@ public class PostsEntity extends BaseTimeEntity {
         this.content = content;
     }
 
+
+    @Builder
+    public PostsEntity(String title, String content, LocalDateTime createdTime, String email ){
+        this.title = title;
+        this.content = content;
+        this.createdTime = createdTime;
+        this.email = email;
+    }
 
 }
