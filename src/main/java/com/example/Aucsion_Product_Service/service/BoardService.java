@@ -13,9 +13,9 @@ public interface BoardService {
     CommentCRUDResponseDto updateComment(Long commentId, CommentUpdateRequestDto commentRequestDto);
     CommentCRUDResponseDto deleteComment(Long commentId);
 
-    PostCRUDResponseDto registPost(PostRegistRequestDto dto);
+    PostCRUDResponseDto registPost(Long productId,PostRegistRequestDto dto);
 
-    CommentCRUDResponseDto registComment(CommentRegistRequestDto dto);
+    CommentCRUDResponseDto registComment(Long postId, CommentRegistRequestDto dto);
 
 
 }

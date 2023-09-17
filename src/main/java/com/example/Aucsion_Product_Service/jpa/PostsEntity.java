@@ -51,11 +51,12 @@ public class PostsEntity extends BaseTimeEntity {
 
 
     @Builder
-    public PostsEntity(String title, String content, LocalDateTime createdTime, String email ){
+    public PostsEntity(String title, String content, LocalDateTime createdTime, String email, ProductsEntity productsEntity){
         this.title = title;
         this.content = content;
         this.createdTime = createdTime;
         this.email = email;
+        this.productsEntity = productsEntity;
     }
 
 }

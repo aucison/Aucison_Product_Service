@@ -45,10 +45,11 @@ public class CommentsEntity extends BaseTimeEntity {
 
 
     @Builder
-    public CommentsEntity(String content, LocalDateTime createdTime, String email ){
+    public CommentsEntity(String content, LocalDateTime createdTime, String email, PostsEntity postsEntity){
         this.content = content;
         this.createdTime = createdTime;
         this.email = email;
+        this.postsEntity = postsEntity;
     }
 
 }

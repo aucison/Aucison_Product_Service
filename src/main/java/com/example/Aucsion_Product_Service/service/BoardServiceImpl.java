@@ -14,10 +14,13 @@ public class BoardServiceImpl implements  BoardService{
     PostsRepository postsRepository;
     CommentsRepository commentsRepository;
 
+    ProductsRepository productsRepository;
+
     @Autowired
-    public BoardServiceImpl(PostsRepository postsRepository, CommentsRepository commentsRepository) {
+    public BoardServiceImpl(PostsRepository postsRepository, CommentsRepository commentsRepository, ProductsRepository productsRepository) {
         this.postsRepository= postsRepository;
         this.commentsRepository=commentsRepository;
+        this.postsRepository=postsRepository;
     }
 
     @Override
@@ -92,11 +95,15 @@ public class BoardServiceImpl implements  BoardService{
     //게시물과 댓글에 대한 CRUD 서비스 코드
     //최대한 간결하고 직관성있고 통일성있게...
     @Override
-    public PostCRUDResponseDto registPost(PostRegistRequestDto dto){
+    public PostCRUDResponseDto registPost(Long productId,PostRegistRequestDto dto){
+        ProductsEntity productsEntity = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + productId));
+
         PostsEntity post = PostsEntity.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .email(dto.getEmail())
+                .productsEntity(productsEntity)
                 .build();
 
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
@@ -113,10 +120,16 @@ public class BoardServiceImpl implements  BoardService{
     }
 
     @Override
-    public CommentCRUDResponseDto registComment(CommentRegistRequestDto dto){
+    public CommentCRUDResponseDto registComment(Long postId, CommentRegistRequestDto dto){
+
+        PostsEntity postEntity = postsRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+
+
         CommentsEntity comment = CommentsEntity.builder()
                 .content(dto.getContent())
                 .email(dto.getEmail())
+                .postsEntity(postEntity)
                 .build();
 
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
@@ -135,7 +148,7 @@ public class BoardServiceImpl implements  BoardService{
     public PostCRUDResponseDto updatePost(Long postId, PostUpdateRequestDto postRequestDto) {
         PostsEntity post = postsRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
-        post.update(postRequestDto.getTitle(), postRequestDto.getContent());
+        post.update(postRequestDto.getTitle(), postRequestDto.getContent());    //실제 수정 로직
 
         /*
         postsRepository.save(post);
@@ -166,6 +179,7 @@ public class BoardServiceImpl implements  BoardService{
     public CommentCRUDResponseDto updateComment(Long commentId, CommentUpdateRequestDto commentRequestDto) {
         CommentsEntity comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
+        comment.update(commentRequestDto.getContent()); //실제 수정 로직
 
         CommentsEntity updatedComment = commentsRepository.save(comment);
 

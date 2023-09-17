@@ -60,8 +60,7 @@ public class ProductsEntity extends BaseTimeEntity {
 
     @Builder
     public ProductsEntity(String name, String kind, String category,LocalDateTime createdTime,
-                          String information, String summary, String brand
-                          /*Auc_infosEntity auc_infosEntity, Nor_infosEntity nor_infosEntity*/) {
+                          String information, String summary, String brand) {
         this.name = name;
         this.kind = kind;
         this.category = category;
@@ -69,8 +68,6 @@ public class ProductsEntity extends BaseTimeEntity {
         this.information = information;
         this.summary = summary;
         this.brand = brand;
-        //this.auc_infosEntity = auc_infosEntity;
-        //this.nor_infosEntity = nor_infosEntity;
     }
 
 }
