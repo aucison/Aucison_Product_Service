@@ -50,7 +50,7 @@ public class BoardController {
     public ApiResponse<PostCRUDResponseDto> createPost(@PathVariable("products_id") Long productId,
                                                        @RequestBody PostRegistRequestDto postRegistRequestDto) {
 
-        return ApiResponse.createSuccess(boardService.registPost(postRegistRequestDto));
+        return ApiResponse.createSuccess(boardService.registPost(productId, postRegistRequestDto));
     }
 
     // 상품 개별 조회에서 게시물에 댓글 작성

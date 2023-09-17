@@ -14,10 +14,13 @@ public class BoardServiceImpl implements  BoardService{
     PostsRepository postsRepository;
     CommentsRepository commentsRepository;
 
+    ProductsRepository productsRepository;
+
     @Autowired
-    public BoardServiceImpl(PostsRepository postsRepository, CommentsRepository commentsRepository) {
+    public BoardServiceImpl(PostsRepository postsRepository, CommentsRepository commentsRepository, ProductsRepository productsRepository) {
         this.postsRepository= postsRepository;
         this.commentsRepository=commentsRepository;
+        this.postsRepository=postsRepository;
     }
 
     @Override
@@ -92,11 +95,15 @@ public class BoardServiceImpl implements  BoardService{
     //게시물과 댓글에 대한 CRUD 서비스 코드
     //최대한 간결하고 직관성있고 통일성있게...
     @Override
-    public PostCRUDResponseDto registPost(PostRegistRequestDto dto){
+    public PostCRUDResponseDto registPost(Long productId,PostRegistRequestDto dto){
+        ProductsEntity productsEntity = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + productId));
+
         PostsEntity post = PostsEntity.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .email(dto.getEmail())
+                .productsEntity(productsEntity)
                 .build();
 
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
