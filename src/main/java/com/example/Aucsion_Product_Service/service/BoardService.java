@@ -15,7 +15,7 @@ public interface BoardService {
 
     PostCRUDResponseDto registPost(PostRegistRequestDto dto);
 
-    CommentCRUDResponseDto registComment(CommentRegistRequestDto dto);
+    CommentCRUDResponseDto registComment(Long postId, CommentRegistRequestDto dto);
 
 
 }

@@ -113,10 +113,16 @@ public class BoardServiceImpl implements  BoardService{
     }
 
     @Override
-    public CommentCRUDResponseDto registComment(CommentRegistRequestDto dto){
+    public CommentCRUDResponseDto registComment(Long postId, CommentRegistRequestDto dto){
+
+        PostsEntity postEntity = postsRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+
+
         CommentsEntity comment = CommentsEntity.builder()
                 .content(dto.getContent())
                 .email(dto.getEmail())
+                .postsEntity(postEntity)
                 .build();
 
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
@@ -135,7 +141,7 @@ public class BoardServiceImpl implements  BoardService{
     public PostCRUDResponseDto updatePost(Long postId, PostUpdateRequestDto postRequestDto) {
         PostsEntity post = postsRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
-        post.update(postRequestDto.getTitle(), postRequestDto.getContent());
+        post.update(postRequestDto.getTitle(), postRequestDto.getContent());    //실제 수정 로직
 
         /*
         postsRepository.save(post);
@@ -166,6 +172,7 @@ public class BoardServiceImpl implements  BoardService{
     public CommentCRUDResponseDto updateComment(Long commentId, CommentUpdateRequestDto commentRequestDto) {
         CommentsEntity comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
+        comment.update(commentRequestDto.getContent()); //실제 수정 로직
 
         CommentsEntity updatedComment = commentsRepository.save(comment);
 

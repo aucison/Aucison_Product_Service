@@ -24,6 +24,7 @@ public class BoardController {
         this.boardService=boardService;
     }
 
+    /*
     @GetMapping("/detail/board/{products_id}")
     public ResponseEntity<Map<String, Object>> getBoardByProductId(@PathVariable Long products_id) {
         List<PostListResponseDto> posts = boardService.getBoardByProductId(products_id);
@@ -31,6 +32,15 @@ public class BoardController {
         Map<String, Object> response = new HashMap<>();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+     */
+
+    //위를 변경
+    @GetMapping("/detail/{products_id}/board")
+    public ApiResponse<List<PostListResponseDto>> getBoardByProductId(@PathVariable Long products_id){
+
+        return ApiResponse.createSuccess(boardService.getBoardByProductId(products_id));
     }
 
 
@@ -49,7 +59,7 @@ public class BoardController {
                                         @PathVariable("posts_id") Long postId,
                                         @RequestBody CommentRegistRequestDto commentRegistRequestDto) {
 
-        return ApiResponse.createSuccess(boardService.registComment(commentRegistRequestDto));
+        return ApiResponse.createSuccess(boardService.registComment(postId, commentRegistRequestDto));
     }
 
     @PutMapping("/detail/{products_id}/board/{posts_id}")
