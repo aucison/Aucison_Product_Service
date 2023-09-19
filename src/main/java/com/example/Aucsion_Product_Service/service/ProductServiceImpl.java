@@ -1,6 +1,7 @@
 package com.example.Aucsion_Product_Service.service;
 
 
+import com.example.Aucsion_Product_Service.client.MemberServiceClient;
 import com.example.Aucsion_Product_Service.dto.*;
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucsProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.auc_nor.SaleProductResponseDto;
@@ -22,11 +23,14 @@ public class ProductServiceImpl implements ProductService{
     Sale_infosRepository sale_infosRepository;
     Aucs_infosRepository aucs_infosRepository;
 
+    MemberServiceClient memberServiceClient;
+
     @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository, Sale_infosRepository sale_infosRepository, Aucs_infosRepository aucs_infosRepository){
+    public ProductServiceImpl(ProductsRepository productsRepository, Sale_infosRepository sale_infosRepository, Aucs_infosRepository aucs_infosRepository, MemberServiceClient memberServiceClient){
         this.productsRepository=productsRepository;
         this.aucs_infosRepository=aucs_infosRepository;
         this.sale_infosRepository=sale_infosRepository;
+        this.memberServiceClient = memberServiceClient;
     }
 
 
@@ -157,7 +161,10 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void registerProduct(ProductRegisterRequestDto dto) {
-        //상품 등록
+        //상품 등록 서비스 로직
+
+        // member-service로부터 이메일을 가져옴
+        String emailFromMemberService = memberServiceClient.getEmail();
 
         //ProductsEntity를 먼저 저장을 한다.
         ProductsEntity product = ProductsEntity.builder()
@@ -166,6 +173,7 @@ public class ProductServiceImpl implements ProductService{
                 .information(dto.getInformation())
                 .summary(dto.getSummary())
                 .brand(dto.getBrand())
+                .email(emailFromMemberService) // 가져온 이메일을 설정
                 .build();
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
 
@@ -190,8 +198,6 @@ public class ProductServiceImpl implements ProductService{
 
             sale_infosRepository.save(norInfo);
         }
-
-        //흐음 1대 1관계를 유지하려면 이렇게 해야한다네...
     }
 
     @Override
