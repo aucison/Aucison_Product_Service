@@ -21,10 +21,13 @@ public class ProductSearchResponseDto {
     private String summary;
     private String brand;
 
+    //마이크로 서비스간 통신
+    private boolean isWished;  // 찜 여부
+
     // 경매상품 정보
     private float start_price;
     private Date end;   //end의 경우 사용자나 시스템 로직에 의해 명시적으로 설정해야 하므로 Date형
-    private String bids_code;
+    private Long high;  //최고가 -> 현재 수정한 부분
 
     // 비경매상품 정보
     private float price;

@@ -31,7 +31,7 @@ public class ProductsEntity extends BaseTimeEntity {
     private String kind;            // 상품분류(일반(hand) / 핸드메이드(nonhand)
 
     @Column(name = "category", nullable = false)
-    private String category;        // 경매여부(경매(auc) / 비경매(nor))
+    private String category;        // 경매여부(경매(AUCS) / 비경매(SALE))
 
     @Column(name = "createdTime", nullable = false)
     private LocalDateTime createdTime;        //등록 시간

@@ -2,6 +2,7 @@ package com.example.Aucsion_Product_Service.service;
 
 
 import com.example.Aucsion_Product_Service.client.MemberServiceClient;
+import com.example.Aucsion_Product_Service.client.ShippingServiceClient;
 import com.example.Aucsion_Product_Service.dto.*;
 import com.example.Aucsion_Product_Service.dto.auc_nor.AucsProductResponseDto;
 import com.example.Aucsion_Product_Service.dto.auc_nor.SaleProductResponseDto;
@@ -25,12 +26,16 @@ public class ProductServiceImpl implements ProductService{
 
     MemberServiceClient memberServiceClient;
 
+    ShippingServiceClient shippingServiceClient;
+
+
     @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository, Sale_infosRepository sale_infosRepository, Aucs_infosRepository aucs_infosRepository, MemberServiceClient memberServiceClient){
+    public ProductServiceImpl(ProductsRepository productsRepository, Sale_infosRepository sale_infosRepository, Aucs_infosRepository aucs_infosRepository, MemberServiceClient memberServiceClient, ShippingServiceClient shippingServiceClient){
         this.productsRepository=productsRepository;
         this.aucs_infosRepository=aucs_infosRepository;
         this.sale_infosRepository=sale_infosRepository;
         this.memberServiceClient = memberServiceClient;
+        this.shippingServiceClient = shippingServiceClient;
     }
 
 
@@ -180,7 +185,7 @@ public class ProductServiceImpl implements ProductService{
         productsRepository.save(product);
 
         //이후 경매인지 비경매인지 체크를 한 후 추가적으로 저장한다.
-        if ("auc".equals(dto.getCategory())) {
+        if ("AUCS".equals(dto.getCategory())) {
             Aucs_infosEntity aucInfo = Aucs_infosEntity.builder()
                     .start_price(dto.getStart_price())
                     .end(dto.getEnd())
@@ -190,7 +195,7 @@ public class ProductServiceImpl implements ProductService{
 
             aucs_infosRepository.save(aucInfo);
 
-        } else if ("nor".equals(dto.getCategory())) {
+        } else if ("SALE".equals(dto.getCategory())) {
             Sale_infosEntity norInfo = Sale_infosEntity.builder()
                     .price(dto.getPrice())
                     .productsEntity(product)
@@ -201,28 +206,59 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductSearchResponseDto searchProductByName(String name) {
+    public ProductSearchResponseDto searchProductByName(String name, String email) {
         //상품 검색 결과 반환
         //현재 기술적 한개로 검색시 정확히 일치하는 단 한개만을 보여줄 수 있음
 
 
         ProductsEntity product = productsRepository.findByName(name);
 
+        //검색결과 -> 일치하는 것 없음
         if (product == null) {
             throw new AppException(ErrorCode.SEARCH_NOT_FOUND);
         }
 
+        boolean userWishStatus = false; //기본값
 
-        if (product != null) {
-            return ProductSearchResponseDto.builder()
-                    .name(product.getName())
-                    .createdTime(product.getCreatedTime())
-                    .summary(product.getSummary())
-                    .brand(product.getBrand())
-                    .build();
-        } else {
-            return null;  // 없을 경우 로직 생각
+        //검색결과 -> 일치하는 것 발견
+
+        // member-service에서 사용자의 찜 여부를 확인
+        List<Long> wishedProductIds = memberServiceClient.getWishesProductIdsByEmail(email);
+        userWishStatus = wishedProductIds.contains(product.getProducts_id());
+
+        //아래와 같이 짜면 경매/비경매 상품 따로 못보여줌
+//            return ProductSearchResponseDto.builder()
+//                    .name(product.getName())
+//                    .createdTime(product.getCreatedTime())
+//                    .summary(product.getSummary())
+//                    .brand(product.getBrand())
+//                    .isWished(userWishStatus)
+//                    .build();
+
+        //객체 생성 과정에서 선택적으로 특정 필드를 생성하기 위해 다음과 같이 코드 구성 -> .build가 나중에 나옴(return시에)
+        ProductSearchResponseDto.ProductSearchResponseDtoBuilder responseDtoBuilder = ProductSearchResponseDto.builder()
+                .name(product.getName())
+                .createdTime(product.getCreatedTime())
+                .summary(product.getSummary())
+                .brand(product.getBrand())
+                .isWished(userWishStatus);
+        if("AUCS".equals(product.getCategory())){
+
+            //최고가를 얻기 위해 nowPrice의 모든 값 비교
+            List<Long> nowPrices = shippingServiceClient.getNowPricesByProductId(product.getProducts_id());
+            Long highestPrice = nowPrices.stream().max(Long::compareTo).orElse(null);
+
+            responseDtoBuilder
+                    .start_price(product.getAucs_infosEntity().getStart_price())
+                    .end(product.getAucs_infosEntity().getEnd())
+                    .high(highestPrice);
+
         }
+        else if("SALE".equals(product.getCategory())){
+            responseDtoBuilder
+                    .price(product.getSale_infosEntity().getPrice());
+        }
+        return responseDtoBuilder.build();
 
     }
 
