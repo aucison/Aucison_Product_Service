@@ -1,5 +1,6 @@
 package com.example.Aucsion_Product_Service.service;
 
+import com.example.Aucsion_Product_Service.client.MemberServiceClient;
 import com.example.Aucsion_Product_Service.dto.board.*;
 import com.example.Aucsion_Product_Service.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,14 @@ public class BoardServiceImpl implements  BoardService{
 
     ProductsRepository productsRepository;
 
+    MemberServiceClient memberServiceClient;
+
     @Autowired
-    public BoardServiceImpl(PostsRepository postsRepository, CommentsRepository commentsRepository, ProductsRepository productsRepository) {
-        this.postsRepository= postsRepository;
+    public BoardServiceImpl(PostsRepository postsRepository, CommentsRepository commentsRepository, ProductsRepository productsRepository, MemberServiceClient memberServiceClient) {
+        this.productsRepository=productsRepository;
         this.commentsRepository=commentsRepository;
         this.postsRepository=postsRepository;
+        this.memberServiceClient = memberServiceClient;
     }
 
     @Override
@@ -99,10 +103,13 @@ public class BoardServiceImpl implements  BoardService{
         ProductsEntity productsEntity = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + productId));
 
+        // member-service로부터 이메일을 가져옴
+        String emailFromMemberService = memberServiceClient.getEmail();
+
         PostsEntity post = PostsEntity.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .email(dto.getEmail())
+                .email(emailFromMemberService)
                 .productsEntity(productsEntity)
                 .build();
 
@@ -125,10 +132,12 @@ public class BoardServiceImpl implements  BoardService{
         PostsEntity postEntity = postsRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
 
+        // member-service로부터 이메일을 가져옴
+        String emailFromMemberService = memberServiceClient.getEmail();
 
         CommentsEntity comment = CommentsEntity.builder()
                 .content(dto.getContent())
-                .email(dto.getEmail())
+                .email(emailFromMemberService)
                 .postsEntity(postEntity)
                 .build();
 

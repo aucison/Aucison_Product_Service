@@ -25,7 +25,8 @@ public class ProductRegisterRequestDto {
     private String summary;
     private String brand;
 
-
+    //마이크로 서비스간 통신
+    private String email;
 
     // 경매상품 정보
     private float start_price;
