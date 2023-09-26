@@ -10,8 +10,10 @@ import com.example.Aucsion_Product_Service.dto.search.ProductSearchResponseDto;
 import com.example.Aucsion_Product_Service.exception.AppException;
 import com.example.Aucsion_Product_Service.exception.ErrorCode;
 import com.example.Aucsion_Product_Service.jpa.*;
+import com.example.Aucsion_Product_Service.util.S3Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,14 +30,17 @@ public class ProductServiceImpl implements ProductService{
 
     ShippingServiceClient shippingServiceClient;
 
+    S3Utils s3Utils;
+
 
     @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository, Sale_infosRepository sale_infosRepository, Aucs_infosRepository aucs_infosRepository, MemberServiceClient memberServiceClient, ShippingServiceClient shippingServiceClient){
+    public ProductServiceImpl(ProductsRepository productsRepository, Sale_infosRepository sale_infosRepository, Aucs_infosRepository aucs_infosRepository, MemberServiceClient memberServiceClient, ShippingServiceClient shippingServiceClient, S3Utils s3Utils){
         this.productsRepository=productsRepository;
         this.aucs_infosRepository=aucs_infosRepository;
         this.sale_infosRepository=sale_infosRepository;
         this.memberServiceClient = memberServiceClient;
         this.shippingServiceClient = shippingServiceClient;
+        this.s3Utils = s3Utils;
     }
 
 
@@ -181,6 +186,17 @@ public class ProductServiceImpl implements ProductService{
                 .email(emailFromMemberService) // 가져온 이메일을 설정
                 .build();
         // 'createdTime'이 자동으로 설정될 것이므로 필요 x
+
+        //이미지 저장
+        if(dto.getImages() != null && dto.getImages().size() <= 10) { // 이미지가 10개 이하인지 확인
+            for(MultipartFile image : dto.getImages()) {
+                String imageUrl = s3Utils.uploadFiles(image, "product-images"); // S3에 이미지 업로드 후 URL 반환
+                ProductImgEntity imageEntity = ProductImgEntity.builder()
+                        .url(imageUrl)
+                        .build();
+                product.addImage(imageEntity);
+            }
+        }
 
         productsRepository.save(product);
 

@@ -3,9 +3,11 @@ package com.example.Aucsion_Product_Service.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +27,9 @@ public class ProductRegisterRequestDto {
 
     //마이크로 서비스간 통신, 판매자 이메일
     private String email;
+
+    //이미지 등록
+    private List<MultipartFile> images; // 사용자로부터 받을 이미지 리스트
 
     // 경매상품 정보
     private float start_price;

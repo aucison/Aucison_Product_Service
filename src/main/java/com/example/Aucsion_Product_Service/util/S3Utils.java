@@ -1,11 +1,10 @@
 package com.example.Aucsion_Product_Service.util;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.example.Aucsion_Product_Service.exception.AppException;
 import com.example.Aucsion_Product_Service.exception.ErrorCode;
-import com.example.Aucsion_Product_Service.exception.ImageException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,9 +24,9 @@ public class S3Utils {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String uploadFiles(MultipartFile multipartFile, String dirName) throws ImageException {
+    public String uploadFiles(MultipartFile multipartFile, String dirName) throws AppException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
-                .orElseThrow(() -> new ImageException(ErrorCode.IMAGE_PROCESSING_FAIL));
+                .orElseThrow(() -> new AppException(ErrorCode.IMAGE_PROCESSING_FAIL));
         return upload(uploadFile, dirName);
     }
 
@@ -60,7 +59,7 @@ public class S3Utils {
     }
 
     // 로컬에 파일 업로드 하기
-    private Optional<File> convert(MultipartFile file) throws ImageException {
+    private Optional<File> convert(MultipartFile file) throws AppException {
         File convertFile = new File(System.getProperty("user.dir") + "/" + file.getOriginalFilename());
         try {
             if (convertFile.createNewFile()) { // 바로 위에서 지정한 경로에 File이 생성됨 (경로가 잘못되었다면 생성 불가능)
@@ -70,7 +69,7 @@ public class S3Utils {
                 return Optional.of(convertFile);
             }
         } catch (IOException e) {
-            throw new ImageException(ErrorCode.IMAGE_PROCESSING_FAIL);
+            throw new AppException(ErrorCode.IMAGE_PROCESSING_FAIL);
         }
         return Optional.empty();
     }

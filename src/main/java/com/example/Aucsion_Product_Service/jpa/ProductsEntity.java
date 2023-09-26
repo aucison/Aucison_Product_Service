@@ -62,6 +62,9 @@ public class ProductsEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "productsEntity")
     List<PostsEntity> postsEntities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductImgEntity> images = new ArrayList<>();
+
     @Builder
     public ProductsEntity(String name, String kind, String category,LocalDateTime createdTime,
                           String information, String summary, String brand, String email) {
@@ -73,6 +76,11 @@ public class ProductsEntity extends BaseTimeEntity {
         this.summary = summary;
         this.brand = brand;
         this.email = email;
+    }
+
+    public void addImage(ProductImgEntity image) {
+        this.images.add(image);
+        image.setProduct(this);
     }
 
 }
