@@ -1,5 +1,6 @@
 package com.example.Aucsion_Product_Service.util;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -19,7 +20,8 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class S3Utils {
-    private final AmazonS3Client amazonS3Client;
+
+    private final AmazonS3 amazonS3; // AmazonS3Client에서 AmazonS3로 변경 -> 이게 최신임
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -38,8 +40,8 @@ public class S3Utils {
 
     // S3로 업로드
     private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        amazonS3.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
 
     // 로컬에 저장된 이미지 지우기

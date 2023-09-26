@@ -13,8 +13,6 @@ import java.util.Date;
 public class ProductRegisterRequestDto {
 
 
-    //판매자 이메일 해줘야함
-
 
     //상품 등록시 사용하는 Dto
     private String name;
@@ -25,7 +23,7 @@ public class ProductRegisterRequestDto {
     private String summary;
     private String brand;
 
-    //마이크로 서비스간 통신
+    //마이크로 서비스간 통신, 판매자 이메일
     private String email;
 
     // 경매상품 정보
